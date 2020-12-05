@@ -5,7 +5,7 @@
 __author__ = '{Johannes Kistemaker}'
 __email__ = '{johannes.kistemaker@hva.nl}'
 
-import os, sys, hashlib, argparse
+import os, hashlib, argparse
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
@@ -16,23 +16,14 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 def terminal_args():
     # Initiate the parser
     parser = argparse.ArgumentParser()
-    parser.add_argument('-k', metavar="key_location" ,type=str, required=True, help="path to folder with RSA keys")
-    parser.add_argument("-fpk", metavar="foreign_public_key_location", type=str, required=True, help="public key of receiver")
+    parser.add_argument('-k', metavar="key_location", type=str, required=True, help="path to folder with RSA keys")
+    parser.add_argument("-fpk", metavar="foreign_public_key_location", type=str,
+                        required=True, help="public key of receiver")
     parser.add_argument("-f", metavar="file_location", type=str, required=True, help="location of file to be encrypted")
     parser.add_argument("-o", metavar="output", type=str, required=True, help="path where files will be stored")
 
     # Read arguments from the command line
     args = parser.parse_args()
-
-    # Check each location and print it
-    # if not args.key_location:
-        # sys.exit()
-    # if args.foreign_public_key_location:
-    #     print(args.foreign_public_key_location)
-    # elif args.file_location:
-    #     print(args.file_location)
-    # elif args.output:
-    #     print(args.output)
 
     return args.k, args.fpk, args.f, args.o
 
@@ -67,10 +58,6 @@ def write_to_disk(arg, file):
         # Write encrypted file to disk
         with open(str(output_location) + "/" + str(studentnumber) + ".code", 'w') as h:
             h.write(str(file))
-    # elif arg == "key":
-    #     # Write key to disk
-    #     with open(str(output_location) + "/" + str(studentnumber) + ".skey", 'w') as h:
-    #         h.write(str(file))
     elif arg == "iv":
         # Write iv to disk
         with open(str(output_location) + "/" + str(studentnumber) + ".iv", 'w') as h:
@@ -164,7 +151,6 @@ def encrypt_file():
                                        algorithm=hashes.SHA256(), label=None))
     # Write to disk both encrypted file and session key
     write_to_disk("encrypted_file", data)
-    # write_to_disk("key", key)
     write_to_disk("iv", iv)
     write_to_disk("encrypted_skey", ciphertext)
 
@@ -192,7 +178,7 @@ if __name__ == '__main__':
         # Encrypt file + iv with frans pub
         encrypted_file, session_key, crypto_session_key = encrypt_file()
 
-        print("Succes!")
+        print("Success!")
 
     except ValueError:
         # Catching user-input that cannot be parsed as an int
@@ -203,9 +189,3 @@ if __name__ == '__main__':
         # User input error
         print("Supplied arguments are not valid!")
         exit(3)
-
-
-
-
-
-

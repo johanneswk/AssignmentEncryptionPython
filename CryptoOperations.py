@@ -102,7 +102,7 @@ def write_to_disk(arg, file):
             h.write(str(file))
     elif arg == "iv":
         # Write iv to disk
-        with open(str(studentnumber) + ".skey", 'w') as h:
+        with open(str(studentnumber) + ".iv", 'w') as h:
             h.write(str(file))
     elif arg == "iv_foreign_pub":
         # Write iv encrypted with foreign public key to disk

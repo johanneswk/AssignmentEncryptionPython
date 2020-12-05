@@ -2,5 +2,16 @@
 
 This program can hash a file, sign a file, store an encrypted session key and encrypt a file using a public and private key
 
-TODO: Clean-up used paths from code and make it dynamic >> Only one argument can be provided (yet) via the terminal.
+**Parameters:**
+This script needs 4 arguments supplied from the terminal to function.
+1. -k (path to folder with RSA keys)
+2. -f (location of file to be encrypted)
+3. -fpk (public key of the receiver)
+4. -o (path where files will be stored)
+
+
+
+**Usage example:** 
+`python3 CryptoOperations.py -k C:\Users\johan\PycharmProjects\RsaPair -f C:\Users\johan\Desktop\Software_Security\RSA_Pair_Gen.py -fpk C:\Users\johan\Desktop\Software_Security\frans.pem -o C:\Users\johan\PycharmProjects\AssignmentEncryptionPython`
+
 

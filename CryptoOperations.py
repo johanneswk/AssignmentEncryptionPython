@@ -141,10 +141,10 @@ def encrypt_file():
     encrypted += encryptor.finalize()
     data = encrypted + iv
 
-    # Encrypt iv with a public key
-    frans_pub = read_public_key(arg="foreign")
+    # Encrypt skey with public key
+    foreign_pub = read_public_key(arg="foreign")
     message = key
-    ciphertext = frans_pub.encrypt(message,
+    ciphertext = foreign_pub.encrypt(message,
                                    asymmetric.padding.OAEP(
                                        mgf=asymmetric.padding.MGF1(
                                            algorithm=hashes.SHA256()),

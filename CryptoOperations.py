@@ -5,7 +5,7 @@
 __author__ = '{Johannes Kistemaker}'
 __email__ = '{johannes.kistemaker@hva.nl}'
 
-import os, hashlib, argparse
+import os, sys, hashlib, argparse
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
@@ -16,23 +16,23 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 def terminal_args():
     # Initiate the parser
     parser = argparse.ArgumentParser()
-    parser.add_argument("-k", "--key_location", help="path to folder with RSA keys")
-    parser.add_argument("-fpk", "--foreign_public_key_location", help="public key of receiver")
-    parser.add_argument("-f", "--file_location", help="location of file to be encrypted")
-    parser.add_argument("-o", "--output", help="path where files will be stored")
+    parser.add_argument('-k', metavar="key_location" ,type=str, required=True, help="path to folder with RSA keys")
+    parser.add_argument("-fpk", metavar="foreign_public_key_location", type=str, required=True, help="public key of receiver")
+    parser.add_argument("-f", metavar="file_location", type=str, required=True, help="location of file to be encrypted")
+    parser.add_argument("-o", metavar="output", type=str, required=True, help="path where files will be stored")
 
     # Read arguments from the command line
     args = parser.parse_args()
 
     # Check each location and print it
-    if args.key_location:
-        print(args.key_location)
-    if args.foreign_public_key_location:
-        print(args.foreign_public_key_location)
-    elif args.file_location:
-        print(args.file_location)
-    elif args.output:
-        print(args.output)
+    # if not args.key_location:
+        # sys.exit()
+    # if args.foreign_public_key_location:
+    #     print(args.foreign_public_key_location)
+    # elif args.file_location:
+    #     print(args.file_location)
+    # elif args.output:
+    #     print(args.output)
 
     return args.key_location, args.foreign_public_key_location, args.file_location, args.output
 
@@ -136,7 +136,7 @@ def test_signature():
         return True
     except InvalidSignature:
         print("Invalid signature")
-        exit(3)
+        exit(4)
 
 
 def encrypt_file():
@@ -185,12 +185,9 @@ if __name__ == '__main__':
 
         # Sign file
         signature_file = signing()
-        # print(signature_file)
 
         # Test signature
         check_signature = test_signature()
-        # if check_signature:
-        #     print("Valid signature!")
 
         # Encrypt file + iv with frans pub
         encrypted_file, session_key, crypto_session_key = encrypt_file()

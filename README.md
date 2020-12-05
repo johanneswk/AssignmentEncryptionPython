@@ -15,6 +15,7 @@ It does this by:
 
 
 **Parameters:**
+
 This script needs 4 arguments supplied from the terminal to function.
 1. `-k` path to folder with RSA keys
 2. `-f` location of file to be encrypted
@@ -24,7 +25,9 @@ This script needs 4 arguments supplied from the terminal to function.
 
 
 **Usage example:** 
+
 `python3 CryptoOperations.py -k ~\RsaPair -f ~/RSA_Pair_Gen.py -fpk ~/Downloads/frans.pem -o ~/Documents/EncryptionAssignment`
 
 **Usage example 2:** 
+
 `python3 CryptoOperations.py -k C:\Users\johan\PycharmProjects\RsaPair -f C:\Users\johan\Desktop\Software_Security\RSA_Pair_Gen.py -fpk C:\Users\johan\Desktop\Software_Security\frans.pem -o C:\Users\johan\PycharmProjects\AssignmentEncryptionPython`

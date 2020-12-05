@@ -34,7 +34,7 @@ def terminal_args():
     # elif args.output:
     #     print(args.output)
 
-    return args.key_location, args.foreign_public_key_location, args.file_location, args.output
+    return args.k, args.fpk, args.f, args.o
 
 
 def hasher():

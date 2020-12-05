@@ -67,11 +67,15 @@ def write_to_disk(arg, file):
         # Write encrypted file to disk
         with open(str(output_location) + "/" + str(studentnumber) + ".code", 'w') as h:
             h.write(str(file))
+    # elif arg == "key":
+    #     # Write key to disk
+    #     with open(str(output_location) + "/" + str(studentnumber) + ".skey", 'w') as h:
+    #         h.write(str(file))
     elif arg == "iv":
         # Write iv to disk
         with open(str(output_location) + "/" + str(studentnumber) + ".iv", 'w') as h:
             h.write(str(file))
-    elif arg == "iv_foreign_pub":
+    elif arg == "encrypted_skey":
         # Write iv encrypted with foreign public key to disk
         with open(str(output_location) + "/" + str(studentnumber) + ".skeyc", 'w') as i:
             i.write(str(file))
@@ -148,21 +152,23 @@ def encrypt_file():
     encryptor = cipher.encryptor()
     encrypted = encryptor.update(padded)
     encrypted += encryptor.finalize()
+    data = encrypted + iv
 
     # Encrypt iv with a public key
     frans_pub = read_public_key(arg="foreign")
-    message = iv
+    message = key
     ciphertext = frans_pub.encrypt(message,
                                    asymmetric.padding.OAEP(
                                        mgf=asymmetric.padding.MGF1(
                                            algorithm=hashes.SHA256()),
                                        algorithm=hashes.SHA256(), label=None))
     # Write to disk both encrypted file and session key
-    write_to_disk("encrypted_file", encrypted)
+    write_to_disk("encrypted_file", data)
+    # write_to_disk("key", key)
     write_to_disk("iv", iv)
-    write_to_disk("iv_foreign_pub", ciphertext)
+    write_to_disk("encrypted_skey", ciphertext)
 
-    return encrypted, iv, ciphertext
+    return data, iv, ciphertext
 
 
 if __name__ == '__main__':

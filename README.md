@@ -3,23 +3,23 @@
 This script was made so that a file can be sent securely. 
 It does this by:
 
-- Creating a hash of the specified file
+- Creating a hash of the specified file;
 
-- Signing the hash
+- Signing the hash;
 
-- Encrypting the file using AES
+- Encrypting the file using AES;
 
-- Encrypting the session-key with a (foreign) public key
+- Encrypting the session-key with a (foreign) public key.
 
 
 
 
 **Parameters:**
 This script needs 4 arguments supplied from the terminal to function.
-1. `-k` (path to folder with RSA keys)
-2. `-f` (location of file to be encrypted)
-3. `-fpk` (public key of the receiver)
-4. `-o` (path where files will be stored)
+1. `-k` path to folder with RSA keys
+2. `-f` location of file to be encrypted
+3. `-fpk` public key of the receiver
+4. `-o` path where files will be stored
 
 
 

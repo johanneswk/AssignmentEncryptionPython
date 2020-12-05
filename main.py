@@ -5,13 +5,69 @@
 __author__ = '{Johannes Kistemaker}'
 __email__ = '{johannes.kistemaker@hva.nl}'
 
-import os
-import hashlib
+import os, sys, getopt, hashlib
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, serialization, asymmetric, padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+
+def args():
+    # List possible arguments
+    short_options = "k:fpk:f:o:"
+    long_options = ["key_location=", "foreign_public_key_location=", "file_location=", "output_location="]
+
+    # Values
+    key = ""
+    fp_key = ""
+    file = ""
+    output = ""
+
+    # Get full command-line arguments
+    full_cmd_arguments = sys.argv
+    # Keep all but the first
+    argument_list = full_cmd_arguments[1:]
+    print(argument_list)
+
+    try:
+        arguments, values = getopt.getopt(argument_list, short_options, long_options)
+    except getopt.error as err:
+        # Output error, and return with an error code
+        print(str(err))
+        sys.exit(4)
+
+    if not arguments:
+        print("provide all necessary file locations as an argument!")
+        print("usage: \n-k, --key_location")
+        print("-fpk, --foreign_public_key_location")
+        print("-f, --file_location")
+        print("-o, --output\n")
+        raise TypeError
+
+    # Evaluate given options
+    for current_argument, current_value in arguments:
+        if current_argument in ("-k", "--key_location"):
+            key = current_value
+            print(key)
+        elif current_argument in ("-fk", "foreign_public_key_location="):
+            fp_key = current_value
+            print(fp_key)
+        elif current_argument in ("-f", "--file_location"):
+            file = current_value
+            print(file)
+        elif current_argument in ("-o", "--output_location"):
+            output = current_value
+            print(output)
+        else:
+            print("provide all necessary file locations as an argument!")
+            print("usage: \n-k, --key_location")
+            print("-fpk, --foreign_public_key_location")
+            print("-f, --file_location")
+            print("-o, --output\n")
+            raise TypeError
+
+    return key, fp_key, file, output
 
 
 def hasher():
@@ -51,7 +107,7 @@ def write_to_disk(arg, file):
 
 
 def read_private_key():
-    with open("C:/Users/johan/Desktop/Software_Security/" + str(studentnumber) + ".key", "rb") as f:
+    with open(str(key_location) + "/" + str(studentnumber) + ".key", "rb") as f:
         private_key = serialization.load_pem_private_key(
             f.read(), password=None, backend=default_backend())
         return private_key
@@ -59,7 +115,7 @@ def read_private_key():
 
 def read_public_key(arg):
     if arg == "own":
-        with open("C:/Users/johan/Desktop/Software_Security/" + str(studentnumber) + ".pem", "rb") as f:
+        with open(str(key_location) + "/" + str(studentnumber) + ".pem", "rb") as f:
             public_key = serialization.load_pem_public_key(
                 f.read(), backend=default_backend())
             return public_key
@@ -139,6 +195,9 @@ def encrypt_file():
 
 if __name__ == '__main__':
     try:
+        # Parsing args
+        key_location, fp_key_location, file_location, output_path = args()
+
         # Welcome and input
         print("Welcome to this generator\n")
         studentnumber = int(input("Enter your school student number: "))
@@ -160,8 +219,16 @@ if __name__ == '__main__':
 
         print("Succes!")
 
-    # except ValueError:
-    except PendingDeprecationWarning:
+    except ValueError:
         # Catching user-input that cannot be parsed as an int
         print("Entered studentnumber is not correct!")
         exit(2)
+
+    except TypeError:
+        # User input error
+        exit(3)
+
+    except:
+        print("An error occurred!")
+        exit(1)
+

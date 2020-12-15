@@ -26,7 +26,7 @@ This script needs 4 arguments supplied from the terminal to function.
 
 **Usage example:** 
 
-`python3 CryptoOperations.py -k ~\RsaPair -f ~/RSA_Pair_Gen.py -fpk ~/Downloads/frans.pem -o ~/Documents/EncryptionAssignment`
+`python3 CryptoOperations.py -k ~/RsaPair -f ~/RSA_Pair_Gen.py -fpk ~/Downloads/frans.pem -o ~/Documents/EncryptionAssignment`
 
 **Usage example 2:** 
 
